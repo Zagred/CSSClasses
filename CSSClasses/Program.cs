@@ -18,15 +18,13 @@ namespace ConsoleApp7
             var path = @"C:\Users\paco\Desktop\Project\CSSClasses\bootstrap.css";
             StreamReader txt = new StreamReader("C:\\Users\\paco\\Desktop\\Project\\CSSClasses\\BootstrapClassesInUse.txt");
 
-            string fileName = System.IO.File.ReadAllText(path);
-            MatchCollection css = Regex.Matches(fileName, @"[^}]?([^{]*{[^}]*})", RegexOptions.Multiline);
-
             List<string> cssClases = new List<string>();
-            List<string> isNotThere = new List<string>();
+            List<string> isThere = new List<string>();
 
-            bool isThere = false;
             string txtLine;
 
+            string fileName = System.IO.File.ReadAllText(path);
+            MatchCollection css = Regex.Matches(fileName, @"[^}]?([^{]*{[^}]*})", RegexOptions.Multiline);
             for (int i = 0; i < css.Count; i++)
             {
                 string cls = css[i].Captures[0].ToString().Trim();
@@ -44,13 +42,9 @@ namespace ConsoleApp7
                     {
                         if (txtLine == str)
                         {
-                            isThere = true;
+                            isThere.Add(str);
                         }
-                    }
-                    if (isThere == false)
-                    {
-                        isNotThere.Add(txtLine);
-                    }
+                    }             
                     txtLine = txt.ReadLine();
                 }
                 txt.Close();
@@ -60,8 +54,8 @@ namespace ConsoleApp7
                 Console.WriteLine("Exception: " + e.Message);
             }
 
-            Console.WriteLine("These are the classes are not used in css file");
-            foreach (string s in isNotThere)
+            Console.WriteLine("These are the classes are used in css file");
+            foreach (string s in isThere)
             {
                 Console.WriteLine(s);
             }
