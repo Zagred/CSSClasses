@@ -6,7 +6,6 @@ using System.Security.Policy;
 using System.Text;
 using System.Threading.Tasks;
 using System.IO;
-using HtmlAgilityPack;
 using System.Text.RegularExpressions;
 using System.Web;
 
@@ -16,45 +15,56 @@ namespace ConsoleApp7
     {
         static void Main(string[] args)
         {
-            var path = @"C:\Users\ppandev\Desktop\bootstrap.css";
+            var path = @"C:\Users\paco\Desktop\Project\CSSClasses\bootstrap.css";
+            StreamReader txt = new StreamReader("C:\\Users\\paco\\Desktop\\Project\\CSSClasses\\BootstrapClassesInUse.txt");
+
             string fileName = System.IO.File.ReadAllText(path);
-            MatchCollection mt = Regex.Matches(fileName, @"[^}]?([^{]*{[^}]*})", RegexOptions.Multiline);
-            List<string> list = new List<string>();
+            MatchCollection css = Regex.Matches(fileName, @"[^}]?([^{]*{[^}]*})", RegexOptions.Multiline);
+
+            List<string> cssClases = new List<string>();
             List<string> isNotThere = new List<string>();
+
             bool isThere = false;
-            for (int i = 0; i < mt.Count; i++)
+            string txtLine;
+
+            for (int i = 0; i < css.Count; i++)
             {
-                string cls = mt[i].Captures[0].ToString().Trim();
+                string cls = css[i].Captures[0].ToString().Trim();
                 var className = cls.Substring(1, cls.IndexOf("{") - 1).Trim().Replace(":before", "").Replace(":after", "");
 
-                list.Add(className);
+                cssClases.Add(className);
 
             }
-            Console.WriteLine("---------------------------------");
-            using (StreamReader reader = new StreamReader(@"C:\Users\ppandev\Desktop\BootstrapClassesInUse.txt"))
+            try
             {
-                string line;
-                foreach (var item in list)
+                txtLine = txt.ReadLine();
+                while (txtLine != null)
                 {
-                    while ((line = reader.ReadLine()) != null)
+                    foreach (string str in cssClases)
                     {
-                        if (line == item)
+                        if (txtLine == str)
                         {
                             isThere = true;
                         }
-
                     }
                     if (isThere == false)
                     {
-                        isNotThere.Add(item);
+                        isNotThere.Add(txtLine);
                     }
+                    txtLine = txt.ReadLine();
                 }
+                txt.Close();
             }
-            foreach (var item in isNotThere)
+            catch (Exception e)
             {
-                Console.WriteLine(item);
+                Console.WriteLine("Exception: " + e.Message);
             }
-            for (; ; ) { }
+
+            Console.WriteLine("These are the classes are not used in css file");
+            foreach (string s in isNotThere)
+            {
+                Console.WriteLine(s);
+            }
         }
     }
 }
