@@ -19,9 +19,8 @@ namespace ConsoleApp7
             StreamReader txt = new StreamReader("C:\\Users\\paco\\Desktop\\Project\\CSSClasses\\BootstrapClassesInUse.txt");
 
             List<string> cssClases = new List<string>();
-            List<string> isNotThere = new List<string>();
+            List<string> isThere = new List<string>();
 
-            bool isThere = false;
             string txtLine;
 
             string fileName = System.IO.File.ReadAllText(path);
@@ -43,13 +42,10 @@ namespace ConsoleApp7
                     {
                         if (txtLine == str)
                         {
-                            isThere = true;
+                            isThere.Add(txtLine);
                         }
                     }
-                    if (isThere == false)
-                    {
-                        isNotThere.Add(txtLine);
-                    }
+
                     txtLine = txt.ReadLine();
                 }
                 txt.Close();
@@ -59,8 +55,8 @@ namespace ConsoleApp7
                 Console.WriteLine("Exception: " + e.Message);
             }
 
-            Console.WriteLine("These are the classes are not used in css file");
-            foreach (string s in isNotThere)
+            Console.WriteLine("These are the classes are used in css file");
+            foreach (string s in isThere)
             {
                 Console.WriteLine(s);
             }
