@@ -18,15 +18,14 @@ namespace ConsoleApp7
             var path = @"C:\Users\paco\Desktop\Project\CSSClasses\bootstrap.css";
             StreamReader txt = new StreamReader("C:\\Users\\paco\\Desktop\\Project\\CSSClasses\\BootstrapClassesInUse.txt");
 
-            string fileName = System.IO.File.ReadAllText(path);
-            MatchCollection css = Regex.Matches(fileName, @"[^}]?([^{]*{[^}]*})", RegexOptions.Multiline);
-
             List<string> cssClases = new List<string>();
             List<string> isNotThere = new List<string>();
 
             bool isThere = false;
             string txtLine;
 
+            string fileName = System.IO.File.ReadAllText(path);
+            MatchCollection css = Regex.Matches(fileName, @"[^}]?([^{]*{[^}]*})", RegexOptions.Multiline);
             for (int i = 0; i < css.Count; i++)
             {
                 string cls = css[i].Captures[0].ToString().Trim();
