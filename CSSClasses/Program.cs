@@ -24,11 +24,11 @@ namespace ConsoleApp7
             string txtLine;
 
             string fileName = System.IO.File.ReadAllText(path);
-            MatchCollection css = Regex.Matches(fileName, @"[^}]?([^{]*{[^}]*})", RegexOptions.Multiline);
+            MatchCollection css = Regex.Matches(fileName, @"[^{]*{[^}]*}", RegexOptions.Multiline);
             for (int i = 0; i < css.Count; i++)
             {
                 string cls = css[i].Captures[0].ToString().Trim();
-                var className = cls.Substring(1, cls.IndexOf("{") - 1).Trim().Replace(":before", "").Replace(":after", "");
+                var className = cls.Substring(1, cls.IndexOf("{") - 1).Trim().Replace(":before", "").Replace(":after", "").Replace(" ","");
 
                 cssClases.Add(className);
 
