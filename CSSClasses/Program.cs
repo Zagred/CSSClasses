@@ -8,6 +8,7 @@ using System.Threading.Tasks;
 using System.IO;
 using System.Text.RegularExpressions;
 using System.Web;
+using HtmlAgilityPack;
 
 namespace ConsoleApp7
 {
@@ -18,34 +19,21 @@ namespace ConsoleApp7
             var path = @"C:\Users\paco\Desktop\Project\CSSClasses\bootstrap.css";
             StreamReader txt = new StreamReader("C:\\Users\\paco\\Desktop\\Project\\CSSClasses\\BootstrapClassesInUse.txt");
 
-            List<string> cssClases = new List<string>();
             List<string> isThere = new List<string>();
 
             string txtLine;
-
-            string fileName = System.IO.File.ReadAllText(path);
-            MatchCollection css = Regex.Matches(fileName, @"[^}]?([^{]*{[^}]*})", RegexOptions.Multiline);
-            for (int i = 0; i < css.Count; i++)
-            {
-                string cls = css[i].Captures[0].ToString().Trim();
-                var className = cls.Substring(1, cls.IndexOf("{") - 1).Trim().Replace(":before", "").Replace(":after", "");
-
-                cssClases.Add(className);
-
-            }
+            var doc = new HtmlDocument();
+            doc.LoadHtml(path);
             try
             {
                 txtLine = txt.ReadLine();
                 while (txtLine != null)
                 {
-                    foreach (string str in cssClases)
+                    var isExist = doc.DocumentNode.Descendants(txtLine).Any();
+                    if (isExist)
                     {
-                        if (txtLine == str)
-                        {
-                            isThere.Add(txtLine);
-                        }
+                        isThere.Add(txtLine);
                     }
-
                     txtLine = txt.ReadLine();
                 }
                 txt.Close();
