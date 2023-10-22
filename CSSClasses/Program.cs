@@ -16,7 +16,7 @@ namespace ConsoleApp7
         static void Main(string[] args)
         {
             var path = @"C:\Users\paco\Desktop\Project\CSSClasses\bootstrap.css";
-            StreamReader txt = new StreamReader("C:\\Users\\paco\\Desktop\\Project\\CSSClasses\\BootstrapClassesInUse.txt");
+            StreamReader txt = new StreamReader(@"C:\Users\paco\Desktop\Project\CSSClasses\BootstrapClassesInUse.txt");
 
             List<string> cssClases = new List<string>();
             List<string> isThere = new List<string>();
