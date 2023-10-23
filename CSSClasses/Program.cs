@@ -60,7 +60,6 @@ namespace ConsoleApp7
             {
                 Console.WriteLine(s);
             }
-            for(; ; ) { }
         }
     }
 }
