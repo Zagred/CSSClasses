@@ -15,8 +15,8 @@ namespace ConsoleApp7
     {
         static void Main(string[] args)
         {
-            var path = @"C:\Users\paco\Desktop\Project\CSSClasses\bootstrap.css";
-            StreamReader txt = new StreamReader(@"C:\Users\paco\Desktop\Project\CSSClasses\BootstrapClassesInUse.txt");
+            var path = @"C:\Users\ppandev\Desktop\bootstrap.css";
+            StreamReader txt = new StreamReader(@"C:\Users\ppandev\Desktop\BootstrapClassesInUse.txt");
 
             List<string> cssClases = new List<string>();
             List<string> isThere = new List<string>();
@@ -28,7 +28,7 @@ namespace ConsoleApp7
             for (int i = 0; i < css.Count; i++)
             {
                 string cls = css[i].Captures[0].ToString().Trim();
-                var className = cls.Substring(1, cls.IndexOf("{") - 1).Trim().Replace(":before", "").Replace(":after", "").Replace(" ","");
+                var className = cls.Substring(0, cls.IndexOf("{") - 1).Trim().Replace(":before", "").Replace(":after", "");
 
                 cssClases.Add(className);
 
@@ -55,11 +55,12 @@ namespace ConsoleApp7
                 Console.WriteLine("Exception: " + e.Message);
             }
 
-            Console.WriteLine("These are the classes are used in css file");
+            Console.WriteLine("These are the classes used in the css file");
             foreach (string s in isThere)
             {
                 Console.WriteLine(s);
             }
+            for(; ; ) { }
         }
     }
 }
