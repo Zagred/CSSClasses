@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Net;
@@ -13,17 +13,11 @@ namespace ConsoleApp7
 {
     class Program
     {
-        static void Main(string[] args)
+        public static List<string> GetCSSClases(string pathCSS)
         {
-            var path = @"C:\Users\ppandev\Desktop\bootstrap.css";
-            StreamReader txt = new StreamReader(@"C:\Users\ppandev\Desktop\BootstrapClassesInUse.txt");
-
             List<string> cssClases = new List<string>();
-            List<string> isThere = new List<string>();
 
-            string txtLine;
-
-            string fileName = System.IO.File.ReadAllText(path);
+            string fileName = System.IO.File.ReadAllText(pathCSS);
             MatchCollection css = Regex.Matches(fileName, @"[^{]*{[^}]*}", RegexOptions.Multiline);
             for (int i = 0; i < css.Count; i++)
             {
@@ -33,7 +27,16 @@ namespace ConsoleApp7
                 cssClases.Add(className);
 
             }
-            try
+            return cssClases;
+        }
+        public static void HTMLCLassesUsingCSSFile(List<string> cssClases, string pathTXT)
+        {
+
+            List<string> isThere = new List<string>();
+            string txtLine;
+
+            StreamReader txt = new StreamReader(pathTXT);
+            try//da zamena dvata cikula s hastable ili dictonary ili hashstep
             {
                 txtLine = txt.ReadLine();
                 while (txtLine != null)
@@ -60,6 +63,13 @@ namespace ConsoleApp7
             {
                 Console.WriteLine(s);
             }
+        }
+        static void Main(string[] args)
+        {
+            var pathCSS = @"C:\Users\paco\Desktop\Project\CSSClasses\bootstrap.css";
+            var pathTXT = @"C:\Users\paco\Desktop\Project\CSSClasses\BootstrapClassesInUse.txt";
+
+            HTMLCLassesUsingCSSFile(GetCSSClases(pathCSS), pathTXT);
         }
     }
 }
