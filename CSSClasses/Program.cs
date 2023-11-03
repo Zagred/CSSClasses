@@ -13,9 +13,9 @@ namespace ConsoleApp7
 {
     class Program
     {
-        public static List<string> GetCSSClases(string pathCSS)
+        public static Dictionary<string, string>  GetCSSClases(string pathCSS)
         {
-            List<string> cssClases = new List<string>();
+            Dictionary<string, string> classes = new Dictionary<string, string>();
 
             string fileName = System.IO.File.ReadAllText(pathCSS);
             MatchCollection css = Regex.Matches(fileName, @"[^{]*{[^}]*}", RegexOptions.Multiline);
@@ -24,29 +24,30 @@ namespace ConsoleApp7
                 string cls = css[i].Captures[0].ToString().Trim();
                 var className = cls.Substring(0, cls.IndexOf("{") - 1).Trim().Replace(":before", "").Replace(":after", "");
 
-                cssClases.Add(className);
+                try { classes.Add(className, className); } catch { }
 
             }
-            return cssClases;
+            return classes;
         }
-        public static void HTMLCLassesUsingCSSFile(List<string> cssClases, string pathTXT)
+        public static void HTMLCLassesUsingCSSFile(Dictionary<string, string> classes, string pathTXT)
         {
 
             List<string> isThere = new List<string>();
             string txtLine;
 
             StreamReader txt = new StreamReader(pathTXT);
-            try//da zamena dvata cikula s hastable ili dictonary ili hashstep
+            try
             {
                 txtLine = txt.ReadLine();
                 while (txtLine != null)
                 {
-                    foreach (string str in cssClases)
+                    try
                     {
-                        if (txtLine == str)
-                        {
-                            isThere.Add(txtLine);
-                        }
+                        classes.Add(txtLine, txtLine);
+                    }
+                    catch
+                    {
+                        isThere.Add(txtLine);
                     }
 
                     txtLine = txt.ReadLine();
@@ -70,6 +71,7 @@ namespace ConsoleApp7
             var pathTXT = @"C:\Users\paco\Desktop\Project\CSSClasses\BootstrapClassesInUse.txt";
 
             HTMLCLassesUsingCSSFile(GetCSSClases(pathCSS), pathTXT);
+
         }
     }
 }
